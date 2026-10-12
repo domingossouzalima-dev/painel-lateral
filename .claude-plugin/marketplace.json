@@ -1,0 +1,14 @@
+{
+  "name": "painel-lateral",
+  "owner": {
+    "name": "domingossouzalima-dev"
+  },
+  "description": "Painel lateral para o Claude Code com custo da sessão, tokens, agentes e subagentes (atividade, arquivos criados e deletados).",
+  "plugins": [
+    {
+      "name": "painel-lateral",
+      "source": "./",
+      "description": "Painel lateral para o Claude Code com custo da sessão, tokens, agentes e subagentes (atividade, arquivos criados e deletados)."
+    }
+  ]
+}

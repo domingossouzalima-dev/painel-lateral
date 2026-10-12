@@ -1,0 +1,13 @@
+{
+  "name": "painel-lateral",
+  "version": "0.1.0",
+  "description": "Painel lateral para o Claude Code com custo da sessão, tokens, agentes e subagentes (atividade, arquivos criados e deletados).",
+  "author": {
+    "name": "domingossouzalima-dev",
+    "url": "https://github.com/domingossouzalima-dev"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/domingossouzalima-dev/painel-lateral",
+  "repository": "https://github.com/domingossouzalima-dev/painel-lateral",
+  "types": "./types/index.d.ts"
+}
