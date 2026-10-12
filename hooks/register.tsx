@@ -37,11 +37,8 @@ const removed = (cmd: string): string[] => {
   return out
 }
 
-// Cores do tema da sessão (chaves de tema, acompanham o tema do usuário)
-const C = {
-  line: 'promptBorder', text: 'text', muted: 'subtle', faint: 'inactive',
-  accent: 'suggestion', ok: 'success', bad: 'error',
-}
+// Texto e bordas usam as cores padrão da sessão; só o verde/vermelho semântico vêm do tema
+const C = { ok: 'success', bad: 'error' }
 
 const fmt = (n: number) => (n >= 1e6 ? `${(n / 1e6).toFixed(2)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)}k` : `${n}`)
 
@@ -119,10 +116,10 @@ export const register: Register = on => {
     const sel = p.selected ? p.agents[p.selected] : undefined
 
     const label = (t: string, n?: number) => (
-      <Text color={C.muted} bold>{t.toUpperCase()}{n === undefined ? '' : `  ${n}`}</Text>
+      <Text dimColor bold>{t.toUpperCase()}{n === undefined ? '' : `  ${n}`}</Text>
     )
     const card = (children: any) => (
-      <Box flexDirection="column" marginTop={1} paddingX={1} borderStyle="round" borderColor={C.line}>
+      <Box flexDirection="column" marginTop={1} paddingX={1} borderStyle="round">
         {children}
       </Box>
     )
@@ -130,7 +127,7 @@ export const register: Register = on => {
       card(
         <Box flexDirection="column">
           {label(title, list.length)}
-          {list.length === 0 && <Text color={C.faint}>nenhum</Text>}
+          {list.length === 0 && <Text dimColor>nenhum</Text>}
           {list.slice(-15).map(f => <Text color={color}>{mark} {f}</Text>)}
         </Box>,
       )
@@ -139,13 +136,13 @@ export const register: Register = on => {
       return (
         <Box flexDirection="column">
           <Button key="voltar" label="‹ Voltar" onPress={() => choose(null)} />
-          <Text color={C.text} bold>{sel.label}</Text>
-          <Text color={C.muted}>{sel.kind} · <Text color={sel.isDone ? C.faint : C.ok}>{sel.isDone ? 'concluído' : 'ativo'}</Text> · {fmt(sel.tokens)} tokens</Text>
+          <Text bold>{sel.label}</Text>
+          <Text dimColor>{sel.kind} · <Text color={sel.isDone ? undefined : C.ok}>{sel.isDone ? 'concluído' : 'ativo'}</Text> · {fmt(sel.tokens)} tokens</Text>
           {card(
             <Box flexDirection="column">
               {label('Atividade')}
-              {sel.activity.length === 0 && <Text color={C.faint}>nada ainda</Text>}
-              {sel.activity.slice(-12).reverse().map(a => <Text color={C.text}>{a}</Text>)}
+              {sel.activity.length === 0 && <Text dimColor>nada ainda</Text>}
+              {sel.activity.slice(-12).reverse().map(a => <Text>{a}</Text>)}
             </Box>,
           )}
           {files('Arquivos criados', sel.created, C.ok, '+')}
@@ -163,26 +160,26 @@ export const register: Register = on => {
         {card(
           <Box flexDirection="column">
             {label('Custo da sessão')}
-            <Text color={C.text} bold>US$ {p.costUsd.toFixed(4)}</Text>
+            <Text bold>US$ {p.costUsd.toFixed(4)}</Text>
           </Box>,
         )}
         {card(
           <Box flexDirection="column">
             {label('Tokens usados')}
-            <Text color={C.accent} bold>{fmt(p.tokens)}</Text>
+            <Text bold>{fmt(p.tokens)}</Text>
           </Box>,
         )}
         {card(
           <Box flexDirection="column">
             {label('Agentes ativos', active.length)}
-            {p.order.length === 0 && <Text color={C.faint}>nenhum ainda</Text>}
+            {p.order.length === 0 && <Text dimColor>nenhum ainda</Text>}
             {p.order.map(id => {
               const a = p.agents[id]
               return (
                 <Button key={`ag-${id}`} onPress={() => choose(id)}>
-                  <Text color={a.isDone ? C.faint : C.ok}>● </Text>
-                  <Text color={a.isDone ? C.muted : C.text}>{a.label} </Text>
-                  <Text color={C.faint}>{fmt(a.tokens)}</Text>
+                  <Text color={a.isDone ? undefined : C.ok} dimColor={a.isDone}>● </Text>
+                  <Text dimColor={a.isDone}>{a.label} </Text>
+                  <Text dimColor>{fmt(a.tokens)}</Text>
                 </Button>
               )
             })}
